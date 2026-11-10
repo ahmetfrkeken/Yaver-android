@@ -24,6 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
+import com.ekenahmetfaruk.yaver_android.feature.auth.data.AuthRepository
 import com.ekenahmetfaruk.yaver_android.ui.theme.YaverAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,6 +35,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var appInfo: AppInfo
+    @Inject lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,10 @@ class MainActivity : ComponentActivity() {
 
 
         Log.d("Yaver", "Hilt çalışıyor, uygulama adı: ${appInfo.name}")
+        lifecycleScope.launch {
+            val result = authRepository.login("yavuz@example.com", "11")
+            Log.d("Yaver", "Login sonucu: $result")
+        }
     }
 }
 
